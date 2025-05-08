@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Page Title</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+  <script src='main.js'></script>
+</head>
+<body>
+<head>
+  <meta charset="UTF-8">
+  <title>Funções JS - Tema Roxo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f0fa;
+      color: #4b0082;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #e6ccff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(75, 0, 130, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6a0dad;
+      margin-bottom: 20px;
+    }
+
+    select,
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #ba8cff;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #9d4edd;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #7b2cbf;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #4b0082;
+      min-height: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Funções JS 💜✨ </h1>
+
+  <label for="funcaoSelect">Escolha uma função:</label>
+  <select id="funcaoSelect" onchange="mostrarCampos()">
+    <option value="">-- Selecione --</option>
+    <option value="1">1 - Calcular Desconto</option>
+    <option value="2">2 - Verificar Maioridade</option>
+    <option value="3">3 - Salário Líquido</option>
+    <option value="4">4 - Gerar Senha</option>
+    <option value="5">5 - Converter Temperatura</option>
+    <option value="6">6 - Calcular Média</option>
+    <option value="7">7 - Filtrar Palavras</option>
+    <option value="8">8 - Categoria de Produto</option>
+    <option value="9">9 - Número Primo</option>
+   <option value="10">10 - Contar Vogais</option>
+  </select>
+  <div id="camposDinamicos"></div>
+
+  <button onclick="executarFuncao()">Executar</button>
+
+  <div class="resultado" id="resultado"></div>
+</div>
+
+<script>
+
+function calcularDesconto(precoOriginal, desconto) {
+    if (typeof precoOriginal !== 'number' || typeof desconto !== 'number') {
+        return 'Erro! Valores inválidos, precisa ser um valor numérico.';
+    }
+    if (precoOriginal < 0 || desconto < 0 || desconto > 100) {
+        return 'Erro! Valores inválidos.';
+    }
+    const valorDesconto = precoOriginal - (precoOriginal * (desconto / 100));
+    return valorDesconto;
+}
+
+function verificarMaioridade(idade) {
+    if (idade >= 18) return 'Maioridade';
+    if (idade < 18) return 'Menoridade';
+    return 'Erro! Valores inválidos!';
+}
+
+function calcularSlarioLiquido(salarioBruto) {
+    if (typeof salarioBruto !== 'number') return 'Erro! Valor inválido, tente novamente';
+    if (salarioBruto < 0) return 'Erro! valor precisa ser positivo.';
+    return salarioBruto - (salarioBruto * 0.10);
+}
+
+function gerarSenha(comprimento) {
+    const caracteres = "ABCDEFGHIHKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    if (typeof comprimento !== "number") return "Erro! Comprimento precisa ser um valor numérico.";
+    let senha = "";
+    for (let i = 0; i < comprimento; i++) {
+        const indice = Math.floor(Math.random() * caracteres.length);
+        senha += caracteres[indice];
+    }
+    return senha;
+}
+
+function converterTemperatura(temperatura, tipo) {
+    if (typeof temperatura !== 'number') return 'Erro! Temperatura precisa ser um valor numérico.';
+    if (tipo === 'celsiusParaFahrenheit') return ((temperatura * 9/5) + 32);
+    if (tipo === 'fahrenheitParaCelsius') return ((temperatura - 32) * 5/9);
+    return 'Tipo inválido, use: celsiusParaFahrenheit ou fahrenheitParaCelsius';
+}
+
+function calcularMedia(numeros) {
+    if (!Array.isArray(numeros)) return 'Erro! O parâmetro precisa ser um array';
+    if (numeros.length === 0) return 0;
+    const apenasNumeros = numeros.filter(n => typeof n === "number");
+    if (apenasNumeros.length === 0) return 0;
+    const soma = apenasNumeros.reduce((total, num) => total + num, 0);
+    return soma / apenasNumeros.length;
+}
+
+function filtrarPalavras(palavras, comprimento) {
+    if (!Array.isArray(palavras) || typeof comprimento !== 'number') return 'Erro! Valores inválidos';
+    return palavras.filter(p => typeof p === 'string' && p.length >= comprimento);
+}
+
+function categoriaProduto(preco) {
+    if (typeof preco !== 'number' || preco < 0) return 'Erro! preço inválido';
+    if (preco < 50) return 'Econômico';
+    if (preco < 100) return 'Intermediário';
+    return 'Premium';
+}
+
+function encontrarNumeroPrimo(numero) {
+    if (typeof numero !== 'number' || numero < 2) return false;
+    for (let i = 2; i <= Math.sqrt(numero); i++) {
+        if (numero % i === 0) return false;
+    }
+    return true;
+}
+
+function contarVogais(texto) {
+    if (typeof texto !== 'string') return 'Erro! Valor precisa ser string';
+    const vogais = texto.match(/[aeiou]/gi);
+    return vogais ? vogais.length : 0;
+}
+function mostrarCampos() {
+    const func = document.getElementById("funcaoSelect").value;
+    const div = document.getElementById("camposDinamicos");
+    div.innerHTML = '';
+
+    switch(func) {
+        case "1":
+            div.innerHTML = `
+                <input type="number" id="p1_preco" placeholder="Preço original">
+                <input type="number" id="p1_desconto" placeholder="Porcentagem de desconto">
+            `;
+            break;
+
+        case "2":
+            div.innerHTML = `<input type="number" id="p2_idade" placeholder="Idade">`;
+            break;
+
+        case "3":
+            div.innerHTML = `<input type="number" id="p3_salario" placeholder="Salário bruto">`;
+            break;
+
+        case "4":
+            div.innerHTML = `<input type="number" id="p4_comprimento" placeholder="Comprimento da senha">`;
+            break;
+
+        case "5":
+            div.innerHTML = `
+                <input type="number" id="p5_temperatura" placeholder="Temperatura">
+                <select id="p5_tipo">
+                    <option value="celsiusParaFahrenheit">Celsius → Fahrenheit</option>
+                    <option value="fahrenheitParaCelsius">Fahrenheit → Celsius</option>
+                </select>
+            `;
+            break;
+
+        case "6":
+            div.innerHTML = `<input type="text" id="p6_numeros" placeholder="Números separados por vírgula (ex: 10,5,4)">`;
+            break;
+
+        case "7":
+            div.innerHTML = `
+                <input type="text" id="p7_palavras" placeholder="Palavras (ex: morango,banana)">
+                <input type="number" id="p7_comprimento" placeholder="Tamanho mínimo">
+            `;
+            break;
+
+        case "8":
+            div.innerHTML = `<input type="number" id="p8_preco" placeholder="Preço do produto">`;
+            break;
+
+        case "9":
+            div.innerHTML = `<input type="number" id="p9_numero" placeholder="Número">`;
+            break;
+
+        case "10":
+            div.innerHTML = `<input type="text" id="p10_texto" placeholder="Texto">`;
+            break;
+    }
+}
+
+function executarFuncao() {
+    const func = document.getElementById("funcaoSelect").value;
+    let resultado;
+
+    switch(func) {
+        case "1":
+            const p1_preco = parseFloat(document.getElementById("p1_preco").value);
+            const p1_desconto = parseFloat(document.getElementById("p1_desconto").value);
+            resultado = calcularDesconto(p1_preco, p1_desconto);
+            break;
+
+        case "2":
+            const p2_idade = parseInt(document.getElementById("p2_idade").value);
+            resultado = verificarMaioridade(p2_idade);
+            break;
+
+        case "3":
+            const p3_salario = parseFloat(document.getElementById("p3_salario").value);
+            resultado = calcularSlarioLiquido(p3_salario);
+            break;
+
+        case "4":
+            const p4_comprimento = parseInt(document.getElementById("p4_comprimento").value);
+            resultado = gerarSenha(p4_comprimento);
+            break;
+
+        case "5":
+            const p5_temp = parseFloat(document.getElementById("p5_temperatura").value);
+            const p5_tipo = document.getElementById("p5_tipo").value;
+            resultado = converterTemperatura(p5_temp, p5_tipo);
+            break;
+
+        case "6":
+            const p6_nums = document.getElementById("p6_numeros").value.split(',').map(Number);
+            resultado = calcularMedia(p6_nums);
+            break;
+
+        case "7":
+            const p7_palavras = document.getElementById("p7_palavras").value.split(',');
+            const p7_comp = parseInt(document.getElementById("p7_comprimento").value);
+            resultado = filtrarPalavras(p7_palavras, p7_comp);
+            break;
+
+        case "8":
+            const p8_preco = parseFloat(document.getElementById("p8_preco").value);
+            resultado = categoriaProduto(p8_preco);
+            break;
+
+        case "9":
+            const p9_num = parseInt(document.getElementById("p9_numero").value);
+            resultado = encontrarNumeroPrimo(p9_num) ? 'É primo' : 'Não é primo';
+            break;
+
+        case "10":
+            const p10_texto = document.getElementById("p10_texto").value;
+            resultado = contarVogais(p10_texto);
+            break;
+
+        default:
+            resultado = 'Selecione uma função.';
+    }
+
+    document.getElementById("resultado").innerText = `Resultado: ${resultado}`;
+}
+</script>
+</body>
+</html>
+</body>
+</html>
